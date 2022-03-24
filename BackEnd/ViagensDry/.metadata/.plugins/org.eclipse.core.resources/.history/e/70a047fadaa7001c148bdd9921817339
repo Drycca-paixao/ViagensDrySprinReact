@@ -1,0 +1,58 @@
+package com.agencia.ViagensDry;
+
+import java.util.Arrays;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import com.agencia.ViagensDry.entities.Destinos;
+import com.agencia.ViagensDry.entities.Passageiros;
+import com.agencia.ViagensDry.repositorys.DestinosRepository;
+import com.agencia.ViagensDry.repositorys.PassageirosRepository;
+
+
+
+	@SpringBootApplication
+	public class ViagensDryApplication implements CommandLineRunner {
+	
+	@Autowired
+	private DestinosRepository destinosRepository;
+	
+	@Autowired
+	private PassageirosRepository passageirosRepository;
+
+	public static void main(String[] args) {
+		SpringApplication.run(ViagensDryApplication.class, args);
+	}
+
+	@Override
+	public void run(String... args) throws Exception {
+		
+	
+		Destinos d1 = new Destinos(null, "Arembepe, Camaçari-BA", "07 de setembro de 2022");
+		Destinos d2 = new Destinos(null, "Itacimirim, Camaçari-BA", "12 de outubro de 2022");
+		Destinos d3 = new Destinos(null, "Barra do Jacuípe, Camaçari-BA", "02 de novembro de 2022");
+		
+		/*Passageiros p1 = new Passageiros(null, "Carlos Xavier", "xavier16@gmail.com", "04 de abril de 1992", "010.256.782-46", null);
+		Passageiros p2 = new Passageiros(null, "Mariana Alice", "mari.01@hotmail.com", "26 de outubro de 1988", "123.456.789-01", null);
+		Passageiros p3 = new Passageiros(null, "Adriana da Silva", "drypaz@ig.com.br", "10 de junho de 1977", "789.456.123-78", null);
+		
+		d1.getPassageiros().addAll(Arrays.asList(p1));
+		d2.getPassageiros().addAll(Arrays.asList(p2));
+		d3.getPassageiros().addAll(Arrays.asList(p3));
+		*/
+		destinosRepository.save(d1);
+		destinosRepository.save(d2);
+		destinosRepository.save(d3);
+		/*		
+		passageirosRepository.save(p1);
+		passageirosRepository.save(p2);
+		passageirosRepository.save(p3);
+		*/
+			
+		
+	}
+
+}

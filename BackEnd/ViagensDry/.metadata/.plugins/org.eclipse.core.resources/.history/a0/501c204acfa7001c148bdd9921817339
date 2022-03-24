@@ -1,0 +1,66 @@
+package com.agencia.ViagensDry.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.agencia.ViagensDry.entities.Destinos;
+import com.agencia.ViagensDry.repositorys.DestinosRepository;
+
+@CrossOrigin(origins = "*")
+@RestController
+@RequestMapping(value = "/destinos")
+public class DestinosController {
+	
+	@Autowired
+	private DestinosRepository destinosRepository;
+	
+	@GetMapping
+	public ResponseEntity<List<Destinos>> findAll() {
+		
+		List<Destinos> destinos = destinosRepository.findAll();
+		
+		return ResponseEntity.ok().body(destinos);
+	}
+	
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<Destinos> findById(@PathVariable Long id) {
+		Destinos destinos = destinosRepository.findById(id).get();
+		
+		return ResponseEntity.ok().body(destinos);
+	}
+	
+	//CREATE
+	
+			@PostMapping
+			public Destinos create(@RequestBody Destinos destinos) {
+				
+				return destinosRepository.save(destinos);
+			}
+			//UPDATE
+			
+			@PutMapping("{id}")
+			public ResponseEntity<Destinos> update(@PathVariable long id, @RequestBody Destinos destinosDetails){
+				Destinos updateDestinos = destinosRepository.findById(id).get();
+				
+				updateDestinos.setLugarDestino(destinosDetails.getLugarDestino());
+				updateDestinos.setDiaPartida(destinosDetails.getDiaPartida());
+				
+				
+				destinosRepository.save(updateDestinos);
+				
+				return ResponseEntity.ok(updateDestinos);
+			}
+
+}
+	
+	

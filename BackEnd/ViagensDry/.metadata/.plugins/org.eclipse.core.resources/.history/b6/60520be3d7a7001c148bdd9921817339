@@ -1,0 +1,90 @@
+package com.agencia.ViagensDry.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.agencia.ViagensDry.entities.Destinos;
+import com.agencia.ViagensDry.entities.Passageiros;
+import com.agencia.ViagensDry.repositorys.PassageirosRepository;
+
+
+
+@CrossOrigin(origins = "*")
+@RestController
+@RequestMapping(value = "/passageiros")
+public class PassageirosController {
+	
+
+	@Autowired
+	private PassageirosRepository passageirosRepository;
+	
+	@GetMapping
+	public ResponseEntity<List<Passageiros>> findAll() {
+		
+		List<Passageiros> passageiros = passageirosRepository.findAll();
+		
+		return ResponseEntity.ok().body(passageiros);
+	}
+	
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<Passageiros> findById(@PathVariable Long id) {
+		Passageiros passageiros = passageirosRepository.findById(id).get();
+		
+		return ResponseEntity.ok().body(passageiros);
+	}
+	
+	//CREATE
+	
+		@PostMapping
+		public Passageiros create(@RequestBody Passageiros passageiros) {
+			
+			return passageirosRepository.save(passageiros);
+		}
+		
+		//UPDATE
+		
+		@PutMapping("{id}")
+		public ResponseEntity<Passageiros> update(@PathVariable long id, @RequestBody Passageiros passageirosDetails){
+			Passageiros updatePassageiros = passageirosRepository.findById(id).get();
+			
+			Destinos destinos = destinosRepository.findById(passageirosDetails.getDestinos().getIdDestino()).get();
+			
+			updatePassageiros.setNome(passageirosDetails.getNome());
+			updatePassageiros.setEmail(passageirosDetails.getEmail());
+			updatePassageiros.setDataNascimento(passageirosDetails.getDataNascimento());
+			updatePassageiros.setCpf(passageirosDetails.getCpf());
+			
+			updatePassageiros.setDestinos(destinos);
+			
+			passageirosRepository.save(updatePassageiros);
+			
+			return ResponseEntity.ok(updatePassageiros);
+		}
+		//DELETE
+		
+		@DeleteMapping("{id}")
+	    public ResponseEntity<HttpStatus> delete(@PathVariable long id){
+			
+			Passageiros destinos = passageirosRepository.findById(id).get();
+			
+			passageirosRepository.delete(destinos);
+			
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+	
+	
+
+}
+

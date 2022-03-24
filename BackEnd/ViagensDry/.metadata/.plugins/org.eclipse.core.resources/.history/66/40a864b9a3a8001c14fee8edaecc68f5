@@ -1,0 +1,91 @@
+package com.agencia.ViagensDry.entities;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+@Entity
+public class Destino implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long IdDestinos;
+	private String LugarDestino;
+	private String DiaPartida; 
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "destinos")
+	private List<Passageiros> passageiros = new ArrayList<Passageiros>();
+	
+	public Destinos() {
+		super();
+	}
+
+	public Destinos(Long idDestinos, String lugarDestino, String diaPartida) {
+		super();
+		this.IdDestinos = idDestinos;
+		this.LugarDestino = lugarDestino;
+		this.DiaPartida = diaPartida;
+	}
+
+	public Long getIdDestino() {
+		return IdDestinos;
+	}
+
+	public void setIdDestino(Long idDestinos) {
+		IdDestinos = idDestinos;
+	}
+
+	public String getLugarDestino() {
+		return LugarDestino;
+	}
+
+	public void setLugarDestino(String lugarDestino) {
+		LugarDestino = lugarDestino;
+	}
+
+	public String getDiaPartida() {
+		return DiaPartida;
+	}
+
+	public void setDiaPartida(String diaPartida) {
+		DiaPartida = diaPartida;
+	}
+	public List<Passageiros> getPassageiros() {
+		return passageiros;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(IdDestinos);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Destinos other = (Destinos) obj;
+		return Objects.equals(IdDestinos, other.IdDestinos);
+	}
+	
+	
+	
+	
+	
+
+}

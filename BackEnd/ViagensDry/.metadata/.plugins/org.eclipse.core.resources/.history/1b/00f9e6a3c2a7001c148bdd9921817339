@@ -1,0 +1,45 @@
+package com.agencia.ViagensDry.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.agencia.ViagensDry.entities.Passageiros;
+import com.agencia.ViagensDry.repositorys.PassageirosRepository;
+import com.agencia.ViagensDry.repositorys.PassageirossRepository;
+
+
+@CrossOrigin(origins = "*")
+@RestController
+@RequestMapping(value = "/passageiros")
+public class PassageirosController {
+	
+
+	@Autowired
+	private PassageirosRepository passageirosRepository;
+	
+	@GetMapping
+	public ResponseEntity<List<Passageiros>> findAll() {
+		
+		List<Passageiros> passageiros = passageirosRepository.findAll();
+		
+		return ResponseEntity.ok().body(passageiros);
+	}
+	
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<Passageiros> findById(@PathVariable Long id) {
+		Passageiros passageiros = passageirosRepository.findById(id).get();
+		
+		return ResponseEntity.ok().body(passageiros);
+	}
+	
+	
+
+}
+
